@@ -1,5 +1,6 @@
 package calendar;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class prompt {
@@ -36,7 +37,7 @@ public class prompt {
             return 0;
     }
 
-    public void runPrompt() {
+    public void runPrompt() throws ParseException {
         printMenu();
 
         Scanner scanner = new Scanner(System.in);
@@ -46,9 +47,9 @@ public class prompt {
             System.out.println("명령 (1, 2, 3, h, q)");
             String cmd = scanner.next();
             if (cmd.equals("1")) {
-                cmdRegiser();
+                cmdRegiser(scanner, cal);
             } else if (cmd.equals("2")) {
-                cmdSearch();
+                cmdSearch(scanner, cal);
             } else if (cmd.equals("3")) {
                 cmdCal(scanner, cal);
             } else if (cmd.equals("h")) {
@@ -81,13 +82,38 @@ public class prompt {
     }
 
 
-    private void cmdSearch() {
+    private void cmdSearch(Scanner s, Calendar c) {
+        System.out.println("[일정 검색]");
+        System.out.println("날짜를 입력해 주세요 (yyyy-MM-dd)");
+        String date = s.next();
+        String plan = "";
+        try {
+            plan = c.searchPlan(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.err.println("일정 검색 중 오류가 발생했습니다.");
+        }
+        System.out.println(plan);
     }
 
-    private void cmdRegiser() {
+    private void cmdRegiser(Scanner s, Calendar c) throws ParseException {
+        System.out.println("[새 일정 등록]");
+        System.out.println("날짜를 입력해 주세요 (yyyy-MM-dd)");
+        String date = s.next();
+        String text = "";
+        System.out.println("일정을 입력해주세요. (문장의 끝에 ;을 입력해 주세요.)");
+        while (true) {
+            String word = s.next();
+            text += word + " ";
+            if (word.equals(";")) {
+                break;
+            }
+        }
+        c.registerPlan(date, text);
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         //셀 실행
         prompt p = new prompt();
         p.runPrompt();
