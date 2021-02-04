@@ -9,7 +9,7 @@ public class prompt {
      * @return 0 ~ 6 (0 = Sunday, 6 = saturday)
      */
     public int parseDay(String week) {
-        if (week.equals("su")) {
+        if (week.equals("su")) { // 일단 이건 경고가 아니라. 추천임 swith문으로 바끌걸 추천하는 거임
             return 0;
         } else if (week.equals("mo")) {
             return 1;
@@ -33,8 +33,6 @@ public class prompt {
 
         int month = 1;
         int year = 2021;
-        int weekday = 0;
-
 
         while (true) {
             System.out.println("년도를 입력해주세요.(exit: -1)");
@@ -47,16 +45,12 @@ public class prompt {
             System.out.println("달을 입력해주세요.");
             System.out.print("MONTH> ");
             month = scanner.nextInt();
-            System.out.println("첫째 날의 요일을 입력해주세요( su mo tu we th fr sa).");
-            String str_weekday = scanner.next();
-            weekday = parseDay(str_weekday);
-
 
             if (month > 12 || month < 1) {
                 System.out.println("잘못된 입력입니다.");
                 continue;
             }
-            cal.printCalendar(year, month, weekday);
+            cal.printCalendar(year, month);
         }
 //        cal.printSampleCalendar();
         System.out.println("Bye!!");
